@@ -9,7 +9,38 @@ from time import time
 # must be summed.
 
 
-def sum_even_fibonacci_1(n):
+def sum_even_fibonacci_1(maximum):
+    x = 1
+    y = 2
+    even_sum = 0
+    while even_sum < maximum:
+        even_sum += y
+        x, y = x + 2 * y, 2 * x + 3 * y
+    return even_sum
+
+start = time()
+assert sum_even_fibonacci_1(4000000) == 4613732
+print("Time of execution for sum_even_fibonacci_2: ", time() - start)
+
+
+def sum_even_fibonacci_2(maximum):
+    def generate(ceiling):
+        a, b = 1, 2
+        while a < ceiling:
+            yield a
+            a, b = b, a + b
+    result = 0
+    for n in generate(maximum):
+        if n % 2 == 0:
+            result += n
+    return result
+
+start = time()
+assert sum_even_fibonacci_2(4000000) == 4613732
+print("Time of execution for sum_even_fibonacci_3: ", time() - start)
+
+
+def sum_even_fibonacci_3(maximum):
     def fibonacci(m):
         if m == 1:
             return 1
@@ -20,7 +51,7 @@ def sum_even_fibonacci_1(n):
     sum_even = 0
     counter = 0
     term = 0
-    while term <= n:
+    while term <= maximum:
         counter += 1
         if term % 2 == 0:
             sum_even = sum_even + term
@@ -28,18 +59,5 @@ def sum_even_fibonacci_1(n):
     return sum_even
 
 start = time()
-assert sum_even_fibonacci_1(4000000) == 4613732
+assert sum_even_fibonacci_3(4000000) == 4613732
 print("Time of execution for sum_even_fibonacci_1: ", time() - start)
-
-
-def sum_even_fibonacci_2(n):
-    x = y = 1
-    even_sum = 0
-    while even_sum < n:
-        even_sum += (x + y)
-        x, y = x + 2 * y, 2 * x + 3 * y
-    return even_sum
-
-start = time()
-assert sum_even_fibonacci_2(4000000) == 4613732
-print("Time of execution for sum_even_fibonacci_2: ", time() - start)
