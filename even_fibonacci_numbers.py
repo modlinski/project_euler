@@ -1,11 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+:brief: Module containing solutions of Project Euler Problem 2.
+:author: Michal Modlinski
+:created: 02.08.2017
+"""
 from time import time
 
+
 # The Fibonacci numbers are the numbers in the following integer sequence, called the Fibonacci sequence. By definition,
-# the first two numbers in the Fibonacci sequence are either 1 and 1, or 0 and 1, depending on the chosen starting
-# point of the sequence, and each subsequent number is the sum of the previous two. In this problem Fibonacci sequence
-# is defined in different way, the first two numbers are 1 and 2, but it does not matter because only even-valued terms
+# the first two numbers in the Fibonacci sequence are either 1 and 1, or 0 and 1, depending on the chosen starting point
+# of the sequence, and each subsequent number is the sum of the previous two. In this problem Fibonacci sequence is
+# defined in different way, the first two numbers are 1 and 2, but it does not matter because only even-valued terms
 # must be summed.
 
 
@@ -17,10 +23,6 @@ def sum_even_fibonacci_1(maximum):
         even_sum += y
         x, y = x + 2 * y, 2 * x + 3 * y
     return even_sum
-
-start = time()
-assert sum_even_fibonacci_1(4000000) == 4613732
-print("Time of execution for sum_even_fibonacci_2: ", time() - start)
 
 
 def sum_even_fibonacci_2(maximum):
@@ -34,10 +36,6 @@ def sum_even_fibonacci_2(maximum):
         if n % 2 == 0:
             result += n
     return result
-
-start = time()
-assert sum_even_fibonacci_2(4000000) == 4613732
-print("Time of execution for sum_even_fibonacci_3: ", time() - start)
 
 
 def sum_even_fibonacci_3(maximum):
@@ -58,6 +56,14 @@ def sum_even_fibonacci_3(maximum):
         term = fibonacci(counter)
     return sum_even
 
-start = time()
-assert sum_even_fibonacci_3(4000000) == 4613732
-print("Time of execution for sum_even_fibonacci_1: ", time() - start)
+
+if __name__ == "__main__":
+    start = time()
+    assert sum_even_fibonacci_1(4000000) == 4613732
+    print("Time of execution for sum_even_fibonacci_1: ", time() - start)
+    start = time()
+    assert sum_even_fibonacci_2(4000000) == 4613732
+    print("Time of execution for sum_even_fibonacci_2: ", time() - start)
+    start = time()
+    assert sum_even_fibonacci_3(4000000) == 4613732
+    print("Time of execution for sum_even_fibonacci_3: ", time() - start)
