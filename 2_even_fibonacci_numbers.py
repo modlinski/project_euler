@@ -12,9 +12,9 @@ from time import time
 def sum_even_fibonacci_1(n):
     def fibonacci(m):
         if m == 1:
-            return 0
-        elif m == 2:
             return 1
+        elif m == 2:
+            return 2
         else:
             return fibonacci(m - 1) + fibonacci(m - 2)
     sum_even = 0
@@ -43,26 +43,3 @@ def sum_even_fibonacci_2(n):
 start = time()
 assert sum_even_fibonacci_2(4000000) == 4613732
 print("Time of execution for sum_even_fibonacci_2: ", time() - start)
-
-
-def sum_even_fibonacci_3(n):
-    def fibonacci_help(m):
-        if m == 1:
-            return 1
-        elif m == 2:
-            return 2
-        else:
-            return fibonacci_help(m - 1) + fibonacci_help(m - 2)
-    sum_even = 0
-    counter = 0
-    term = 0
-    while term <= n:
-        counter += 1
-        if term % 2 == 0:
-            sum_even = sum_even + term
-        term = fibonacci_help(counter)
-    return sum_even
-
-start = time()
-assert sum_even_fibonacci_3(4000000) == 4613732
-print("Time of execution for sum_even_fibonacci_3: ", time() - start)
