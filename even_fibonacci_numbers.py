@@ -56,7 +56,6 @@ def sum_even_fibonacci_3(maximum):
         term = fibonacci(counter)
     return sum_even
 
-
 if __name__ == "__main__":
     start = time()
     assert sum_even_fibonacci_1(4000000) == 4613732
