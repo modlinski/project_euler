@@ -34,7 +34,6 @@ def sum_below_4(div_1, div_2, limes):
                 yield i
     return sum(sum_below())
 
-
 if __name__ == "__main__":
     start = time()
     assert sum_below_1(3, 5, 1000000) == 233333166668
