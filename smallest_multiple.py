@@ -51,37 +51,37 @@ def least_common_multiple_3(n):
     return result
 
 
-# THIS IS THE FASTEST SOLUTION
-#
-# def least_common_multiple_4(n):
-#     a = 0
-#     b = 1
-#     for x in range(n):
-#         a += 1
-#         c = 1
-#         d = b
-#         while d % a != 0:
-#             c += 1
-#             d = b * c
-#         b = d
-#     return b
-#
-# def least_common_multiple_5(t, n):
-#     if n > 0:
-#         if not (t % n):
-#             if least_common_multiple_5(t, n-1):
-#                 return True
-#             else:
-#                 return False
-#         else:
-#             return False
-#     else:
-#         return True
-#
-# i = 20
-# while not least_common_multiple_5(i, 20):
-#     i += 20
-# print(i)
+def least_common_multiple_4(n):
+    result = 1
+    for div in range(2, n+1):
+        multiplier = 1
+        product = result
+        while product % div != 0:
+            multiplier += 1
+            product = result * multiplier
+        result = product
+    return result
+
+
+def least_common_multiple_5(number):
+
+    def check_div(t, n):
+        if n > 0:
+            if not (t % n):
+                if check_div(t, n - 1):
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        else:
+            return True
+
+    product = number
+    while not check_div(product, number):
+        product += number
+    return product
+
 
 if __name__ == "__main__":
 
@@ -97,10 +97,10 @@ if __name__ == "__main__":
     assert least_common_multiple_3(20) == 232792560
     print("Time of execution for least_common_multiple_3: ", time() - start)
 
-    # start = time()
-    # assert least_common_multiple_4(20) == 232792560
-    # print("Time of execution for least_common_multiple_4: ", time() - start)
-    #
-    # start = time()
-    # assert least_common_multiple_5() == 232792560
-    # print("Time of execution for least_common_multiple_5: ", time() - start)
+    start = time()
+    assert least_common_multiple_4(20) == 232792560
+    print("Time of execution for least_common_multiple_4: ", time() - start)
+
+    start = time()
+    assert least_common_multiple_5(20) == 232792560
+    print("Time of execution for least_common_multiple_5: ", time() - start)
