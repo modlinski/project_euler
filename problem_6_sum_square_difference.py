@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     start = time()
     assert difference_1(100) == 25164150
-    print("Time of execution for least_common_multiple_1: ", time() - start)
+    print("Time of execution for difference_1: ", time() - start)
     start = time()
     assert difference_2(100) == 25164150
-    print("Time of execution for least_common_multiple_2: ", time() - start)
+    print("Time of execution for difference_2: ", time() - start)
