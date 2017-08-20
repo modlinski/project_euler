@@ -6,9 +6,46 @@
 :created: 19.08.2017
 """
 from time import time
+from math import floor, sqrt
 
 
-def prime(n):
+def prime_1(n):
+    def is_prime(m):
+        if m == 1:
+            return False
+        else:
+            if m < 4:
+                return True
+            else:
+                if m % 2 == 0:
+                    return False
+                else:
+                    if m < 9:
+                        return True
+                    else:
+                        if m % 3 == 0:
+                            return False
+                        else:
+                            r = floor(sqrt(m))
+                            f = 5
+                            while f <= r:
+                                if m % f == 0:
+                                    return False
+                                if m % (f + 2) == 0:
+                                    return False
+                                f += 6
+                            else:
+                                return True
+    counter = 1
+    candidate = 1
+    while counter < n:
+        candidate += 2
+        if is_prime(candidate):
+            counter += 1
+    return candidate
+
+
+def prime_2(n):
     can = 3
     primes = [2]
     while len(primes) < n:
@@ -22,34 +59,10 @@ def prime(n):
         can += 1
     return primes[-1]
 
-
-def prime_2(n):
-    i = 3
-    n = s = 1
-    while (i <= 10001):
-            if s == 1:
-                x = 6 * n - 1
-                s = 0
-            else:
-                x = 6 * n + 1
-                s = 1
-                n = n + 1
-            r = x ** .5
-            p = 1
-            t = 3
-            while t <= r:
-                if x % t == 0:
-                    p = 0
-                t = t + 2
-            if p == 1:
-                i = i + 1
-    return x
-
-
 if __name__ == "__main__":
     start = time()
-    assert prime(10001) == 104743
-    print("Time of execution for prime: ", time() - start)
+    assert prime_1(10001) == 104743
+    print("Time of execution for prime_1: ", time() - start)
     start = time()
     assert prime_2(10001) == 104743
-    print("Time of execution for prime: ", time() - start)
+    print("Time of execution for prime_2: ", time() - start)
