@@ -7,7 +7,6 @@
 """
 from time import time
 from functools import reduce
-from string import whitespace
 from operator import mul
 
 
@@ -34,8 +33,8 @@ def largest_product_1(n, input_series):
 
 
 def largest_product_2(n, input_series):
-    nos = [int(c) for line in input_series for c in line if c not in whitespace]
-    return max([reduce(mul, nos[i:i + n]) for i in range(len(nos) - n)])
+    numbers = [int(c) for c in input_series]
+    return max([reduce(mul, numbers[i: i + n]) for i in range(len(numbers) - n)])
 
 if __name__ == "__main__":
 
