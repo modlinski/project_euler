@@ -6,37 +6,39 @@
 :created: 19.08.2017
 """
 from time import time
+from functools import reduce
+from string import whitespace
+from operator import mul
 
 
-def largest_product(n, series):
+def largest_product_1(n, input_series):
     product = 1
     n_of_zeros = 0
-    for num in series[0:n]:
+    for num in input_series[0:n]:
         if num == 0:
             n_of_zeros += 1
         else:
             product *= int(num)
     maximum = product if n_of_zeros == 0 else 0
-    for index in range(len(series) - n):
-        if int(series[index]) != 0:
-            product /= int(series[index])
+    for index in range(len(input_series) - n):
+        if int(input_series[index]) != 0:
+            product /= int(input_series[index])
         else:
             n_of_zeros -= 1
-        if int(series[index + n]) != 0:
-            product *= int(series[index+n])
+        if int(input_series[index + n]) != 0:
+            product *= int(input_series[index+n])
         else:
             n_of_zeros += 1
         maximum = max(maximum, product if n_of_zeros == 0 else 0)
-        print(series[index + n])
     return maximum
-        # print(series[index:index+13])
 
 
-
-
-
+def largest_product_2(n, input_series):
+    nos = [int(c) for line in input_series for c in line if c not in whitespace]
+    return max([reduce(mul, nos[i:i + n]) for i in range(len(nos) - n)])
 
 if __name__ == "__main__":
+
     series = "731671765313306249192251196744265747423553491949349698352031277450632623957831801698480186947885184385861" \
              "560789112949495459501737958331952853208805511125406987471585238630507156932909632952274430435576689664895" \
              "044524452316173185640309871112172238311362229893423380308135336276614282806444486645238749303589072962904" \
@@ -47,8 +49,10 @@ if __name__ == "__main__":
              "883142607690042242190226710556263211111093705442175069416589604080719840385096245544436298123098787992724" \
              "428490918884580156166097919133875499200524063689912560717606058861164671094050775410022569831552000559357" \
              "2972571636269561882670428252483600823257530420752963450"
+
     start = time()
-    # assert largest_product(13, series) ==
-    print(largest_product(13, series))
-    print("Time of execution for largest_product: ", time() - start)
+    assert largest_product_1(13, series) == 23514624000
+    print("Time of execution for largest_product_1: ", time() - start)
     start = time()
+    assert largest_product_2(13, series) == 23514624000
+    print("Time of execution for largest_product_2: ", time() - start)
