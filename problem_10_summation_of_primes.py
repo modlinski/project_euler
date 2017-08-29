@@ -47,7 +47,27 @@ def summation_1(ceiling):
         num += 4
     return sum_of_primes
 
+
+def summation_2(ceiling):
+    reduced_ceiling = floor(sqrt(ceiling))
+    numbers = list(range(2, ceiling + 1))
+    numbers.insert(0, False)
+    numbers.insert(0, False)
+
+    for num in range(4, ceiling, 2):
+        numbers[num] = False
+
+    print(numbers)
+
+    # return reduced_ceiling
+    # return sum_of_primes
+
 if __name__ == "__main__":
+    # start = time()
+    # assert summation_1(2000000) == 142913828922
+    # print("Time of execution for summation_1: ", time() - start)
     start = time()
-    assert summation_1(2000000) == 142913828922
+    print(summation_2(100))
+    # print(summation_2(2000000))
+    # assert summation_2(2000000) == 142913828922
     print("Time of execution for summation_1: ", time() - start)
