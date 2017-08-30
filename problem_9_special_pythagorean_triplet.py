@@ -84,7 +84,6 @@ def triplet_3(s):
         product *= num
     return product
 
-
 if __name__ == "__main__":
     start = time()
     assert triplet_1(1000) == 31875000
