@@ -49,25 +49,23 @@ def summation_1(ceiling):
 
 
 def summation_2(ceiling):
+    # The sieve of Eratosthenes
     reduced_ceiling = floor(sqrt(ceiling))
     numbers = list(range(2, ceiling + 1))
     numbers.insert(0, False)
     numbers.insert(0, False)
-
-    for num in range(4, ceiling, 2):
-        numbers[num] = False
-
-    print(numbers)
-
-    # return reduced_ceiling
-    # return sum_of_primes
+    for even in range(4, ceiling + 1, 2):
+        numbers[even] = False
+    for num in range(3, reduced_ceiling + 1, 2):
+        if numbers[num]:
+            for m in range(num*num, ceiling + 1, 2 * num):
+                numbers[m] = False
+    return sum(numbers)
 
 if __name__ == "__main__":
-    # start = time()
-    # assert summation_1(2000000) == 142913828922
-    # print("Time of execution for summation_1: ", time() - start)
     start = time()
-    print(summation_2(100))
-    # print(summation_2(2000000))
-    # assert summation_2(2000000) == 142913828922
+    assert summation_1(2000000) == 142913828922
     print("Time of execution for summation_1: ", time() - start)
+    start = time()
+    assert summation_2(2000000) == 142913828922
+    print("Time of execution for summation_2: ", time() - start)
