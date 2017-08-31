@@ -83,19 +83,27 @@ def largest_product_1(mtr):
     return max(products())
 
 
+# TODO: refactoring
+# largest_product_2 needs one column of zeros at the end
+
 def largest_product_2(mtr):
 
-    def mul(X):
-        return reduce(lambda x, y: x * y, X)
+    def product(four):
+        return reduce(lambda x, y: x * y, four)
 
-    def zip_list(X, n):
-        return zip(*[X[i:-(n - i)] for i in range(n)])
+    def zip_list(line, lng):
+        return zip(*[line[i:len(line)-lng+i+1] for i in range(lng)])
 
-    horizontal = max([max([mul(r) for r in zip_list(row, 4)]) for row in mtr])
-    vertical = max([max([mul(r) for r in zip_list(row, 4)]) for row in zip(*mtr)])
-    diagonal_right = max([max([mul(n) for n in zip(row[0][:-4], row[1][1:-3], row[2][2:-2], row[3][3:-1])]) for row
+    # for row in mtr:
+    #     for four in zip_list(row, 4):
+    #         print(four)
+    #     print('-----------')
+
+    horizontal = max([max([product(row_four) for row_four in zip_list(row, 4)]) for row in mtr])
+    vertical = max([max([product(col_four) for col_four in zip_list(row, 4)]) for row in zip(*mtr)])
+    diagonal_right = max([max([product(n) for n in zip(row[0][:-4], row[1][1:-3], row[2][2:-2], row[3][3:-1])]) for row
                           in zip_list(mtr, 4)])
-    diagonal_left = max([max([mul(n) for n in zip(row[3][:-4], row[2][1:-3], row[1][2:-2], row[0][3:-1])]) for row
+    diagonal_left = max([max([product(n) for n in zip(row[3][:-4], row[2][1:-3], row[1][2:-2], row[0][3:-1])]) for row
                          in zip_list(mtr, 4)])
 
     return max([horizontal, vertical, diagonal_right, diagonal_left])
@@ -144,14 +152,13 @@ def largest_product_3(mtr):
 
     return max(hormax, vertmax, run_prod_leftdiag, run_prod_rightdiag)
 
-# TODO: Refactoring
-
 if __name__ == "__main__":
     start = time()
     assert largest_product_1(matrix_1) == 70600674
     print("Time of execution for summation_1: ", time() - start)
     start = time()
-    assert largest_product_2(matrix_2) == 70600674
+    # assert largest_product_2(matrix_2) == 70600674
+    largest_product_2(matrix_2)
     print("Time of execution for summation_2: ", time() - start)
     start = time()
     assert largest_product_3(matrix_2) == 70600674
