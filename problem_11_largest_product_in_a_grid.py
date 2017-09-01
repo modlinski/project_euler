@@ -83,82 +83,74 @@ def largest_product_1(mtr):
     return max(products())
 
 
-# TODO: refactoring
-# largest_product_2 needs one column of zeros at the end
-
 def largest_product_2(mtr):
 
     def product(four):
         return reduce(lambda x, y: x * y, four)
 
     def zip_list(line, lng):
-        return zip(*[line[i:len(line)-lng+i+1] for i in range(lng)])
-
-    # for row in mtr:
-    #     for four in zip_list(row, 4):
-    #         print(four)
-    #     print('-----------')
+        return zip(*[line[i:len(line) - lng + 1 + i] for i in range(lng)])
 
     horizontal = max([max([product(row_four) for row_four in zip_list(row, 4)]) for row in mtr])
-    vertical = max([max([product(col_four) for col_four in zip_list(row, 4)]) for row in zip(*mtr)])
-    diagonal_right = max([max([product(n) for n in zip(row[0][:-4], row[1][1:-3], row[2][2:-2], row[3][3:-1])]) for row
-                          in zip_list(mtr, 4)])
-    diagonal_left = max([max([product(n) for n in zip(row[3][:-4], row[2][1:-3], row[1][2:-2], row[0][3:-1])]) for row
-                         in zip_list(mtr, 4)])
+    vertical = max([max([product(col_four) for col_four in zip_list(col, 4)]) for col in zip(*mtr)])
+    diagonal_right = max([max([product(dia_four) for dia_four in
+                               zip(four_rows[0][:len(four_rows[0]) - 3], four_rows[1][1:len(four_rows[1]) - 2],
+                                   four_rows[2][2:len(four_rows[2]) - 1], four_rows[3][3:len(four_rows[3])])])
+                          for four_rows in zip_list(mtr, 4)])
+    diagonal_left = max([max([product(dia_four) for dia_four in
+                              zip(four_rows[3][:len(four_rows[0]) - 3], four_rows[2][1:len(four_rows[1]) - 2],
+                                  four_rows[1][2:len(four_rows[2]) - 1], four_rows[0][3:len(four_rows[3])])])
+                         for four_rows in zip_list(mtr, 4)])
 
     return max([horizontal, vertical, diagonal_right, diagonal_left])
 
 
 def largest_product_3(mtr):
 
-    def get_diag(x, y):
-        diag = []
+    def get_dia(cell_x, cell_y):
+        diagonal = []
         for i in range(4):
-            diag.append(mtr[y + i][x + i])
-        return diag
+            diagonal.append(mtr[cell_y + i][cell_x + i])
+        return diagonal
 
     def transposed(matrix):
         return zip(*matrix)
 
     def prod(nums):
-        return reduce(lambda x, y: x * y, nums, 1)
+        return reduce(lambda a, b: a * b, nums, 1)
 
     def max_in_row(row):
         biggest = 0
-        for count in range(21):
-            chk = row[count:count + 4]
-            if prod(chk) > biggest: biggest = prod(chk)
+        for count in range(17):
+            sub_row = row[count:count + 4]
+            if prod(sub_row) > biggest:
+                biggest = prod(sub_row)
         return biggest
 
-    hormax = max((max_in_row(row) for row in mtr))
-    vertmax = max((max_in_row(row) for row in transposed(mtr)))
+    def max_in_diagonals(run_prod_dia=0):
+        for x in range(17):
+            for y in range(17):
+                dia = get_dia(x, y)
+                product = prod(dia)
+                if product > run_prod_dia:
+                    run_prod_dia = product
+        return run_prod_dia
 
-    run_prod_leftdiag = 0
-    run_prod_rightdiag = 0
-    for x in range(17):
-        for y in range(17):
-            diag = get_diag(x, y)
-            product = prod(diag)
-            if product > run_prod_leftdiag: run_prod_leftdiag = product
-
+    hor_max = max((max_in_row(row) for row in mtr))
+    ver_max = max((max_in_row(row) for row in transposed(mtr)))
+    run_prod_left_dia = max_in_diagonals()
     for row in mtr:
         row.reverse()
+    run_prod_right_dia = max_in_diagonals()
 
-    for x in range(17):
-        for y in range(17):
-            diag = get_diag(x, y)
-            product = prod(diag)
-            if product > run_prod_rightdiag: run_prod_rightdiag = product
-
-    return max(hormax, vertmax, run_prod_leftdiag, run_prod_rightdiag)
+    return max(hor_max, ver_max, run_prod_left_dia, run_prod_right_dia)
 
 if __name__ == "__main__":
     start = time()
     assert largest_product_1(matrix_1) == 70600674
     print("Time of execution for summation_1: ", time() - start)
     start = time()
-    # assert largest_product_2(matrix_2) == 70600674
-    largest_product_2(matrix_2)
+    assert largest_product_2(matrix_2) == 70600674
     print("Time of execution for summation_2: ", time() - start)
     start = time()
     assert largest_product_3(matrix_2) == 70600674
